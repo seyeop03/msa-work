@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment # what to create?
+metadata:
+  name: first-service-deployment
+spec: # specification for deployment resource
+  replicas: 1 # how many replicas of pods we want to create
+  selector:
+    matchLabels:
+      app: first-service
+  template:
+    metadata:
+      labels:
+        app: first-service # service will look for this label
+    spec: # specification for pods
+      containers:
+        - name: first-service
+          image: seyeop03/first-service:msa.k8.01
+          ports:
+            - containerPort: 40001 #default one
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: first-service
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 40001
+      targetPort: 40001
+  selector:
+    app: first-service

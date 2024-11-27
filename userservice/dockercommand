@@ -1,0 +1,3 @@
+docker rmi seyeop03/user-service:msa.k8.01
+docker build -t seyeop03/user-service:msa.k8.01 .
+docker push seyeop03/user-service:msa.k8.01

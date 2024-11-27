@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment # what to create?
+metadata:
+  name: second-service-deployment
+spec: # specification for deployment resource
+  replicas: 1 # how many replicas of pods we want to create
+  selector:
+    matchLabels:
+      app: second-service
+  template:
+    metadata:
+      labels:
+        app: second-service # service will look for this label
+    spec: # specification for pods
+      containers:
+        - name: second-service
+          image: seyeop03/second-service:msa.k8.01
+          ports:
+            - containerPort: 40002 #default one
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: second-service
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 40002
+      targetPort: 40002
+  selector:
+    app: second-service
